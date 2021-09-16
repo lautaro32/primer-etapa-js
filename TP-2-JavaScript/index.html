@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TP JS</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- <<<<<<<<<<<<<<<<<<<<       JAVASCRIPT     >>>>>>>>>>>>>>>>>>>> -->
+  
+    <script>
+      function revisarCampos() {
+        //FUNCION ----> Que verifica si los datos estan llenos y correctos.
+        let persona = {
+          nombre: document.getElementById("nombre").value,
+          correo: document.getElementById("correo").value,
+          telefono: document.getElementById("telefono").value,
+          mensaje: document.getElementById("mensaje").value,
+        };
+        if (
+          persona.nombre.length != 0 &&
+          persona.correo.length != 0 &&
+          persona.telefono.length != 0 &&
+          persona.mensaje.length != 0
+        ) {
+          //Si los campos estan todos llenos entonces...
+          revisarEmail();
+        } else {
+          //SI NO, entonces mostrar que campos estan VACIOS
+          let VACIO = "";
+          let cont = 0;
+          if (persona.nombre.length == 0) {
+            VACIO += "NOMBRE ";
+            cont++;
+          }
+          if (persona.correo.length == 0) {
+            VACIO += "CORREO ";
+            cont++;
+          }
+          if (persona.telefono.length == 0) {
+            VACIO += "TELEFONO ";
+            cont++;
+          }
+          if (persona.mensaje.length == 0) {
+            VACIO += "MENSAJE ";
+            cont++;
+          }
+          if (cont > 1) {
+            alert("Los campos " + VACIO + " estan vacios.");
+          } else {
+            alert("El campo " + VACIO + " esta vacio.");
+          }
+        }
+      }
+
+      function revisarEmail() {
+        //FUNCION ----> Comprueba si realmente es un Email
+        var email = document.getElementById("correo").value;
+        var emailRegex =
+          /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+        //Texto que equivale a cada parte del Email
+        if (emailRegex.test(email)) {
+          //Si el CORREO esta bien, entonces agregar los datos a la TABLA
+          agregarFila();
+        } else {
+          //SSI NO mostrar una alerta diciendo q el Email es incorrecto
+          alert("EMAIL incorrecto");
+        }
+      }
+
+      function agregarFila() {
+        //FUNCION -----> Agrego filas a la tabla cada ves que el boton es apretado ----> SIEMPRE QUE HALLA VALORES
+        //Recupero los datos del FORMULARIO dentro de un Array
+        let persona = {
+          nombre: document.getElementById("nombre").value,
+          correo: document.getElementById("correo").value,
+          telefono: document.getElementById("telefono").value,
+          mensaje: document.getElementById("mensaje").value,
+        };
+        //recupero los datos ya creados
+        var t1 = document.getElementById("tabla");
+        var tbody = document.getElementById("tbd");
+        //creo la fila
+        var row1 = document.createElement("TR");
+        //creo los campos
+        var col1 = document.createElement("TD");
+        var col2 = document.createElement("TD");
+        var col3 = document.createElement("TD");
+        var col4 = document.createElement("TD");
+        //asigno valores a los campos
+        var textoCol1 = document.createTextNode(persona.nombre);
+        var textoCol2 = document.createTextNode(persona.correo);
+        var textoCol3 = document.createTextNode(persona.telefono);
+        var textoCol4 = document.createTextNode(persona.mensaje);
+        //agrego los campos a la fila creada
+        row1.appendChild(col1); //agrego col1 a la fila row1
+        row1.appendChild(col2); //agrego col2 a la fila row1
+        row1.appendChild(col3); //agrego col3 a la fila row1
+        row1.appendChild(col4); //agrego col4 a la fila row1
+        //agrego los valores a los campos
+        col1.appendChild(textoCol1); //agrego textoCol1 al campo col1
+        col2.appendChild(textoCol2); //agrego textoCol2 al campo col2
+        col3.appendChild(textoCol3); //agrego textoCol3 al campo col3
+        col4.appendChild(textoCol4); //agrego textoCol4 al campo col4
+
+        tbody.appendChild(row1);
+        t1.appendChild(tbody);
+
+        vaciar(nombre, correo, telefono, mensaje); //Una ves los datos ya ingresados en la tabla, entonces llamo a la funcion VACIAR
+      }
+
+      function vaciar(control1, control2, control3, control4) {
+        //FUNCION ----> Poner los campos VACIOS
+        control1.value = ""; //campo nombre vacio
+        control2.value = ""; //campo correo vacio
+        control3.value = ""; //campo telefono vacio
+        control4.value = ""; //campo mensaje vacio
+      }
+    </script>
+    <!-- <<<<<<<<<<<<<<<<<<<<       fin de JAVASCRIPT     >>>>>>>>>>>>>>>>>>>> -->
+  </head>
+  <body>
+    <!-- Formulario -->
+    <form class="formulario">
+      <h1 class="formulario__titulo">Contactenos</h1>
+
+      <input id="nombre" type="text" class="formulario__input" required />
+      <label for="" class="formulario__label">nombre</label>
+
+      <input id="correo" type="email" class="formulario__input" />
+      <label for="" class="formulario__label">correo</label>
+
+      <input id="telefono" type="tel" class="formulario__input" />
+
+      <label for="" class="formulario__label">telefono</label>
+      <input id="mensaje" type="text" class="formulario__input" />
+      <label for="" class="formulario__label">mensaje</label>
+
+      <input
+        type="button"
+        class="formulario__submit"
+        value="Enviar"
+        onclick="revisarCampos()"
+      />
+    </form>
+    <!-- fin Formulario -->
+
+    <section class="formulario">
+      <!-- INICIO Tabla -->
+      <table border="1px" align="center" id="tabla">
+        <thead>
+          <tr>
+            <td>Nombre</td>
+            <td>Correo</td>
+            <td>Telefono</td>
+            <td>Mensaje</td>
+          </tr>
+        </thead>
+        <tbody id="tbd"></tbody>
+      </table>
+      <!-- FIN Tabla -->
+    </section>
+    <script src="main.js"></script>
+  </body>
+</html>
